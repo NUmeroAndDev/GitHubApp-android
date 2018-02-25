@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
     }
 
     override fun showMainScreen() {
-
+        startActivity(MainActivity.createIntent(this))
     }
 
     private fun showLoginFragment() {

@@ -1,6 +1,6 @@
 package com.numero.github.di
 
-import com.numero.github.MainActivity
+import com.numero.github.activity.MainActivity
 import com.numero.github.activity.LoginActivity
 import dagger.Component
 import javax.inject.Singleton
