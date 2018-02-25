@@ -1,5 +1,6 @@
 package com.numero.github.presenter
 
+import android.util.Log
 import com.numero.github.contract.LoginContract
 import com.numero.github.repository.IGithubRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,10 +26,15 @@ class LoginPresenter(private val view: LoginContract.View, private val githubRep
     }
 
     override fun login(id: String, password: String) {
+        // TODO バリデーションチェック
         view.showProgress()
         disposable = githubRepository.login(id, password)
+                .flatMap {
+                    githubRepository.getUser(it.token)
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    Log.d("Log", it.toString())
                     view.hideProgress()
                     view.successLogin()
                 }, {

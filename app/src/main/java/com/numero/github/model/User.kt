@@ -16,11 +16,11 @@ data class User(
         @Json(name = "avatar_url")
         val avatarImageUrl: String,
         val name: String,
-        val company: String,
-        val blog: String,
+        val company: String?,
+        val blog: String?,
         val location: String,
-        val email: String,
-        val bio: String,
+        val email: String?,
+        val bio: String?,
         @Json(name = "public_repos")
         val publicRepositoryCount: Int,
         @Json(name = "followers")
