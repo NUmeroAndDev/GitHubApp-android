@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.numero.github.R
 import com.numero.github.contract.LoginContract
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(), LoginContract.View {
 
@@ -18,6 +19,7 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
     }
 
     override fun onResume() {
@@ -44,6 +46,14 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun hideProgress() {
 
+    }
+
+    private fun initViews() {
+        loginButton.setOnClickListener {
+            val id = idInputEditText.text.toString()
+            val password = passwordInputEditText.text.toString()
+            presenter.login(id, password)
+        }
     }
 
     companion object {
