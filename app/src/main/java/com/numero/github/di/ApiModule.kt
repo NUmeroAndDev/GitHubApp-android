@@ -41,7 +41,7 @@ class ApiModule {
                 .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().apply {
                     add(ApplicationJsonAdapterFactory.INSTANCE)
                 }.build()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .build()
     }
 
