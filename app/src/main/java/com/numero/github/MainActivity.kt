@@ -6,17 +6,44 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
+import com.numero.github.api.GithubApi
+import com.numero.github.api.request.AuthParams
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    lateinit var githubApi: GithubApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        // 確認用
+        application?.apply {
+            if (this is GithubApplication) {
+                this.component.inject(this@MainActivity)
+            }
+        }
+
+        val postData = "{\"note\":\"Hoge" + System.currentTimeMillis().toString() + "\"}"
+        val params = AuthParams("Hoge${System.currentTimeMillis()}")
+        val base64String = ""
+        githubApi.login(params, "Basic " + Base64.encodeToString(base64String.toByteArray(), Base64.NO_WRAP))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, {
+                    it.printStackTrace()
+                })
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

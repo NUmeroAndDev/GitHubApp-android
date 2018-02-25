@@ -2,6 +2,7 @@ package com.numero.github.di
 
 import com.numero.github.BuildConfig
 import com.numero.github.api.ApplicationJsonAdapterFactory
+import com.numero.github.api.GithubApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -43,4 +44,8 @@ class ApiModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideGithubApi(retrofit: Retrofit): GithubApi = retrofit.create(GithubApi::class.java)
 }
