@@ -4,6 +4,7 @@ import android.app.Application
 import com.numero.github.di.ApiModule
 import com.numero.github.di.ApplicationComponent
 import com.numero.github.di.DaggerApplicationComponent
+import com.numero.github.di.RepositoryModule
 
 class GithubApplication : Application() {
     lateinit var component: ApplicationComponent
@@ -13,6 +14,7 @@ class GithubApplication : Application() {
 
         component = DaggerApplicationComponent.builder()
                 .apiModule(ApiModule())
+                .repositoryModule(RepositoryModule())
                 .build()
     }
 }
