@@ -10,7 +10,7 @@ import com.numero.github.repository.GithubRepository
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -27,6 +27,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         showLoginFragment()
+    }
+
+    override fun showMainScreen() {
+
     }
 
     private fun showLoginFragment() {

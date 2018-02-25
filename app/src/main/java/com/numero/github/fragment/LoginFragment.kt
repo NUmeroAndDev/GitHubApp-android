@@ -1,5 +1,6 @@
 package com.numero.github.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,14 @@ import kotlinx.android.synthetic.main.fragment_login.*
 class LoginFragment : Fragment(), LoginContract.View {
 
     private lateinit var presenter: LoginContract.Presenter
+    private var listener: LoginFragmentListener? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is LoginFragmentListener) {
+            listener = context
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -37,7 +46,7 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun successLogin() {
-
+        listener?.showMainScreen()
     }
 
     override fun showProgress() {
@@ -54,6 +63,10 @@ class LoginFragment : Fragment(), LoginContract.View {
             val password = passwordInputEditText.text.toString()
             presenter.login(id, password)
         }
+    }
+
+    interface LoginFragmentListener {
+        fun showMainScreen()
     }
 
     companion object {
