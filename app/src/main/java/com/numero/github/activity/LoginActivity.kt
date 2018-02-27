@@ -7,6 +7,7 @@ import com.numero.github.R
 import com.numero.github.fragment.LoginFragment
 import com.numero.github.presenter.LoginPresenter
 import com.numero.github.repository.GithubRepository
+import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -14,6 +15,8 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
+    @Inject
+    lateinit var userRepository: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,6 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
                     supportFragmentManager.beginTransaction()
                             .replace(R.id.container, it).commit()
                 }
-        LoginPresenter(fragment, githubRepository)
+        LoginPresenter(fragment, githubRepository, userRepository)
     }
 }
