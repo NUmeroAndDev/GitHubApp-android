@@ -54,6 +54,9 @@ class UserRepository(private val context: Context) : IUserRepository {
             preferences.edit().putString(KEY_TOKEN, encrypted).apply()
         }
 
+    override val hasToken: Boolean
+        get() = token != null
+
     // TODO クリア処理をいれる
 
     private fun encrypt(context: Context, key: String, value: String): String? {

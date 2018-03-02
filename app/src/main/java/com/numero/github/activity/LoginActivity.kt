@@ -29,11 +29,18 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
             }
         }
 
-        showLoginFragment()
+        if (userRepository.hasToken) {
+            showSplashFragment()
+        }else {
+            showLoginFragment()
+        }
     }
 
     override fun showMainScreen() {
         startActivity(MainActivity.createIntent(this))
+    }
+
+    private fun showSplashFragment() {
     }
 
     private fun showLoginFragment() {
