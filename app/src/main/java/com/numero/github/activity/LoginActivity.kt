@@ -2,8 +2,8 @@ package com.numero.github.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.numero.github.GithubApplication
 import com.numero.github.R
+import com.numero.github.extension.component
 import com.numero.github.fragment.LoginFragment
 import com.numero.github.fragment.SplashFragment
 import com.numero.github.presenter.LoginPresenter
@@ -27,11 +27,7 @@ class LoginActivity : AppCompatActivity(),
         setContentView(R.layout.activity_login)
         setSupportActionBar(toolbar)
 
-        application?.apply {
-            if (this is GithubApplication) {
-                this.component.inject(this@LoginActivity)
-            }
-        }
+        component?.inject(this)
 
         if (userRepository.hasToken) {
             showSplashFragment()
