@@ -5,13 +5,17 @@ import android.support.v7.app.AppCompatActivity
 import com.numero.github.GithubApplication
 import com.numero.github.R
 import com.numero.github.fragment.LoginFragment
+import com.numero.github.fragment.SplashFragment
 import com.numero.github.presenter.LoginPresenter
+import com.numero.github.presenter.SplashPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
+class LoginActivity : AppCompatActivity(),
+        LoginFragment.LoginFragmentListener,
+        SplashFragment.SplashFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -31,7 +35,7 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
 
         if (userRepository.hasToken) {
             showSplashFragment()
-        }else {
+        } else {
             showLoginFragment()
         }
     }
@@ -40,7 +44,17 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentListener {
         startActivity(MainActivity.createIntent(this))
     }
 
+    override fun showLoginScreen() {
+        showLoginFragment()
+    }
+
     private fun showSplashFragment() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container) as? SplashFragment
+                ?: SplashFragment.newInstance().also {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, it).commit()
+                }
+        SplashPresenter(fragment, githubRepository, userRepository)
     }
 
     private fun showLoginFragment() {
