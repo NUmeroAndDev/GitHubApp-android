@@ -10,7 +10,7 @@ import io.reactivex.Observable
 
 class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
 
-    private var user: User? = null
+    var user: User? = null
 
     override fun login(id: String, password: String): Observable<Auth> {
         val params = AuthParams(BuildConfig.APPLICATION_ID + "_Android_${System.currentTimeMillis()}")

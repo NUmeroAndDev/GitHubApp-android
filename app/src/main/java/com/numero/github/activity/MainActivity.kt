@@ -89,19 +89,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun initViews() {
-        val navHeaderView = NavHeaderView(this)
+        val navHeaderView = NavHeaderView(this).apply {
+            setUser(githubRepository.user)
+        }
         navigationView.addHeaderView(navHeaderView)
-        githubRepository.getUser("")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    navHeaderView.setUser(it)
-                })
+        navigationView.setNavigationItemSelectedListener(this)
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
-        navigationView.setNavigationItemSelectedListener(this)
     }
 
     companion object {

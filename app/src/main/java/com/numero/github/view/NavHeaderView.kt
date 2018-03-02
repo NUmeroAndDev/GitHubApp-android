@@ -18,7 +18,8 @@ class NavHeaderView @JvmOverloads constructor(context: Context, attrs: Attribute
         super.onFinishInflate()
     }
 
-    fun setUser(user: User) {
+    fun setUser(user: User?) {
+        user ?: return
         nameTextView.text = user.name
         userNameTextView.text = user.userName
         Glide.with(this).load(user.avatarImageUrl).into(iconImageView)
