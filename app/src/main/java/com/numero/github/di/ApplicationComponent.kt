@@ -1,5 +1,6 @@
 package com.numero.github.di
 
+import com.numero.github.activity.ContentsActivity
 import com.numero.github.activity.LoginActivity
 import com.numero.github.activity.MainActivity
 import dagger.Component
@@ -14,4 +15,5 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(loginActivity: LoginActivity)
     fun inject(mainActivity: MainActivity)
+    fun inject(contentsActivity: ContentsActivity)
 }
