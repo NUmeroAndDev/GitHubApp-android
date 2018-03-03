@@ -1,10 +1,7 @@
 package com.numero.github.api
 
 import com.numero.github.api.request.AuthParams
-import com.numero.github.model.Auth
-import com.numero.github.model.Event
-import com.numero.github.model.Repository
-import com.numero.github.model.User
+import com.numero.github.model.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -20,4 +17,7 @@ interface GithubApi {
 
     @GET("/users/{user}/received_events")
     fun getReceivedEvents(@Path("user") user: String): Observable<List<Event>>
+
+    @GET("/repos/{user}/{repository}/contents")
+    fun getContents(@Path("user") user: String, @Path("repository") repository: String): Observable<List<Content>>
 }
