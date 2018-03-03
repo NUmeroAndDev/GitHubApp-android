@@ -6,16 +6,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.numero.github.R
 import com.numero.github.extension.component
-import com.numero.github.fragment.ReceivedEventListFragment
-import com.numero.github.fragment.RepositoryListFragment
-import com.numero.github.presenter.ReceivedEventListPresenter
-import com.numero.github.presenter.RepositoryListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class ContentsActivity : AppCompatActivity() {
+class RepositoryActivity : AppCompatActivity() {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -26,7 +22,7 @@ class ContentsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_contents)
+        setContentView(R.layout.activity_repository)
         setSupportActionBar(toolbar)
 
         component?.inject(this)
@@ -36,7 +32,7 @@ class ContentsActivity : AppCompatActivity() {
 
         private const val INTENT_REPOSITORY_NAME = "INTENT_REPOSITORY_NAME"
 
-        fun createIntent(context: Context, repositoryName: String): Intent = Intent(context, ContentsActivity::class.java).apply {
+        fun createIntent(context: Context, repositoryName: String): Intent = Intent(context, RepositoryActivity::class.java).apply {
             putExtra(INTENT_REPOSITORY_NAME, repositoryName)
         }
     }
