@@ -11,7 +11,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.numero.github.R
 import com.numero.github.extension.component
+import com.numero.github.fragment.ReceivedEventListFragment
 import com.numero.github.fragment.RepositoryListFragment
+import com.numero.github.presenter.ReceivedEventListPresenter
 import com.numero.github.presenter.RepositoryListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         component?.inject(this)
 
         initViews()
-        showRepositoryListFragment()
+        showReceivedEventFragment()
     }
 
     override fun onBackPressed() {
@@ -108,6 +110,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             .replace(R.id.container, it).commit()
                 }
         RepositoryListPresenter(fragment, githubRepository, userRepository)
+    }
+
+    private fun showReceivedEventFragment() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ReceivedEventListFragment
+                ?: ReceivedEventListFragment.newInstance().also {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, it).commit()
+                }
+        ReceivedEventListPresenter(fragment, githubRepository, userRepository)
     }
 
     companion object {
