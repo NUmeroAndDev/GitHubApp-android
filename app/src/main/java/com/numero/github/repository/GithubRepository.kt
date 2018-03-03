@@ -4,10 +4,7 @@ import android.util.Base64
 import com.numero.github.BuildConfig
 import com.numero.github.api.GithubApi
 import com.numero.github.api.request.AuthParams
-import com.numero.github.model.Auth
-import com.numero.github.model.Event
-import com.numero.github.model.Repository
-import com.numero.github.model.User
+import com.numero.github.model.*
 import io.reactivex.Observable
 
 class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
@@ -33,5 +30,9 @@ class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
 
     override fun getReceivedEvents(userName: String): Observable<List<Event>> {
         return githubApi.getReceivedEvents(userName)
+    }
+
+    override fun getContents(userName: String, repositoryName: String): Observable<List<Content>> {
+        return githubApi.getContents(userName, repositoryName)
     }
 }

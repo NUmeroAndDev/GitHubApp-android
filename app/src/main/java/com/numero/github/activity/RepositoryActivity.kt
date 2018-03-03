@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.numero.github.R
 import com.numero.github.extension.component
+import com.numero.github.fragment.ContentListFragment
+import com.numero.github.presenter.ContentListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.content_main.*
@@ -26,6 +28,17 @@ class RepositoryActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         component?.inject(this)
+
+        showContentListFragment(repositoryName)
+    }
+
+    private fun showContentListFragment(repositoryName: String) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ContentListFragment
+                ?: ContentListFragment.newInstance(repositoryName).also {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, it).commit()
+                }
+        ContentListPresenter(fragment, githubRepository, userRepository)
     }
 
     companion object {

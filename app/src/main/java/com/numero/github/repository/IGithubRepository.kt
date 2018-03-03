@@ -1,9 +1,6 @@
 package com.numero.github.repository
 
-import com.numero.github.model.Auth
-import com.numero.github.model.Event
-import com.numero.github.model.Repository
-import com.numero.github.model.User
+import com.numero.github.model.*
 import io.reactivex.Observable
 
 interface IGithubRepository {
@@ -14,4 +11,6 @@ interface IGithubRepository {
     fun getRepositories(userName: String): Observable<List<Repository>>
 
     fun getReceivedEvents(userName: String): Observable<List<Event>>
+
+    fun getContents(userName: String, repositoryName: String): Observable<List<Content>>
 }
