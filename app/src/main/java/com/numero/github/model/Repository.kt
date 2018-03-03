@@ -5,7 +5,7 @@ import se.ansman.kotshi.JsonSerializable
 
 @JsonSerializable
 data class Repository(
-        val id: Int,
+        val id: Long,
         val name: String,
         @Json(name = "full_name")
         val fullName: String,

@@ -12,7 +12,7 @@ import se.ansman.kotshi.JsonSerializable
 data class User(
         @Json(name = "login")
         val userName: String,
-        val id: Int,
+        val id: Long,
         @Json(name = "avatar_url")
         val avatarImageUrl: String,
         val name: String,
