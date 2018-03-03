@@ -2,7 +2,7 @@ package com.numero.github.api
 
 import com.numero.github.api.request.AuthParams
 import com.numero.github.model.Auth
-import com.numero.github.model.Issue
+import com.numero.github.model.Event
 import com.numero.github.model.Repository
 import com.numero.github.model.User
 import io.reactivex.Observable
@@ -16,5 +16,8 @@ interface GithubApi {
     fun getUser(@Query("access_token") token: String): Observable<User>
 
     @GET("/users/{user}/repos")
-    fun getMyRepositories(@Path("user") user: String): Observable<List<Repository>>
+    fun getRepositories(@Path("user") user: String): Observable<List<Repository>>
+
+    @GET("/users/{user}/received_events")
+    fun getReceivedEvents(@Path("user") user: String): Observable<List<Event>>
 }

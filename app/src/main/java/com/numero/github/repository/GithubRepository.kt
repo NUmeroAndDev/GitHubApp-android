@@ -5,6 +5,7 @@ import com.numero.github.BuildConfig
 import com.numero.github.api.GithubApi
 import com.numero.github.api.request.AuthParams
 import com.numero.github.model.Auth
+import com.numero.github.model.Event
 import com.numero.github.model.Repository
 import com.numero.github.model.User
 import io.reactivex.Observable
@@ -27,6 +28,10 @@ class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
     }
 
     override fun getRepositories(userName: String): Observable<List<Repository>> {
-        return githubApi.getMyRepositories(userName)
+        return githubApi.getRepositories(userName)
+    }
+
+    override fun getReceivedEvents(userName: String): Observable<List<Event>> {
+        return githubApi.getReceivedEvents(userName)
     }
 }
