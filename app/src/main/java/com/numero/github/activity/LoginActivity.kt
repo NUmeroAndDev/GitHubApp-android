@@ -1,5 +1,7 @@
 package com.numero.github.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.numero.github.R
@@ -36,8 +38,15 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_MAIN && resultCode == Activity.RESULT_OK) {
+            finish()
+        }
+    }
+
     override fun showMainScreen() {
-        startActivity(MainActivity.createIntent(this))
+        startActivityForResult(MainActivity.createIntent(this), REQUEST_MAIN)
     }
 
     override fun showLoginScreen() {
@@ -60,5 +69,9 @@ class LoginActivity : AppCompatActivity(),
                             .replace(R.id.container, it).commit()
                 }
         LoginPresenter(fragment, githubRepository, userRepository)
+    }
+
+    companion object {
+        private const val REQUEST_MAIN = 1
     }
 }
