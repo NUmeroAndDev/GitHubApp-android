@@ -4,6 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.numero.github.GlideApp
 import com.numero.github.R
 import com.numero.github.model.Event
 import kotlinx.android.extensions.LayoutContainer
@@ -35,6 +38,9 @@ class ReceivedEventListAdapter : RecyclerView.Adapter<ReceivedEventListAdapter.R
     class ReceivedEventViewHolder(override val containerView: View?) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun setEvent(event: Event) {
+            GlideApp.with(itemView).load(event.actor.imageUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE).into(userIconImageView)
+            userNameTextView.text = event.actor.name
+            actionTextView.text = event.type
             repoNameTextView.text = event.repo.name
         }
     }

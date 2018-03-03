@@ -12,6 +12,7 @@ data class Event(
         @Json(name = "created_at")
         val created: String) {
 
+    @JsonSerializable
     data class Actor(
             val id: Long,
             @Json(name = "display_login")
@@ -19,6 +20,7 @@ data class Event(
             @Json(name = "avatar_url")
             val imageUrl: String)
 
+    @JsonSerializable
     data class Repo(
             val id: Long,
             val name: String,
