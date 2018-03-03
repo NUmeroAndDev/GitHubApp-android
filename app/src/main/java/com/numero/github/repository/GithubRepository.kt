@@ -26,7 +26,7 @@ class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
         return githubApi.getUser(token).doOnNext { user = it }
     }
 
-    override fun getRepositories(token: String): Observable<List<Repository>> {
-        return githubApi.getRepositories(token)
+    override fun getRepositories(userName: String): Observable<List<Repository>> {
+        return githubApi.getMyRepositories(userName)
     }
 }

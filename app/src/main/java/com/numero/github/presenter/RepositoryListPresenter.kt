@@ -30,8 +30,8 @@ class RepositoryListPresenter(private val view: RepositoryListContract.View,
 
     private fun loadRepositoryList() {
         view.showProgress()
-        val token = userRepository.token ?: return
-        disposable = githubRepository.getRepositories(token)
+        val name = userRepository.name ?: return
+        disposable = githubRepository.getRepositories(name)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     view.hideProgress()
