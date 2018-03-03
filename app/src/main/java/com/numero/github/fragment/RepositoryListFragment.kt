@@ -17,10 +17,18 @@ import kotlinx.android.synthetic.main.fragment_repository_list.*
 class RepositoryListFragment : Fragment(), RepositoryListContract.View {
 
     private lateinit var presenter: RepositoryListContract.Presenter
-    private val repositoryListAdapter: RepositoryListAdapter = RepositoryListAdapter()
+    private var listener: RepositoryListFragmentListener? = null
+    private val repositoryListAdapter: RepositoryListAdapter = RepositoryListAdapter().apply {
+        setOnItemClickListener {
+            listener?.onClickRepository(it)
+        }
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (context is RepositoryListFragmentListener) {
+            listener = context
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,6 +72,10 @@ class RepositoryListFragment : Fragment(), RepositoryListContract.View {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = repositoryListAdapter
         }
+    }
+
+    interface RepositoryListFragmentListener {
+        fun onClickRepository(repository: Repository)
     }
 
     companion object {

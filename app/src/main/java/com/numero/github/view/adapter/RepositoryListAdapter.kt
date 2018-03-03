@@ -11,11 +11,17 @@ import kotlinx.android.synthetic.main.view_holder_repository.*
 
 class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.RepositoryViewHolder>() {
 
+    private var listener: ((Repository) -> Unit)? = null
+
     var repositoryList: List<Repository>? = null
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
+    fun setOnItemClickListener(listener: ((Repository) -> Unit)) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         return RepositoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_repository, parent, false))
@@ -27,8 +33,11 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
         val list = repositoryList ?: return
-        holder?.apply {
+        holder.apply {
             setRepository(list[position])
+            itemView.setOnClickListener {
+                listener?.invoke(list[position])
+            }
         }
     }
 

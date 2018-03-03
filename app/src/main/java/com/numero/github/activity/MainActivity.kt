@@ -13,6 +13,7 @@ import com.numero.github.R
 import com.numero.github.extension.component
 import com.numero.github.fragment.ReceivedEventListFragment
 import com.numero.github.fragment.RepositoryListFragment
+import com.numero.github.model.Repository
 import com.numero.github.presenter.ReceivedEventListPresenter
 import com.numero.github.presenter.RepositoryListPresenter
 import com.numero.github.repository.GithubRepository
@@ -22,7 +23,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),
+        NavigationView.OnNavigationItemSelectedListener,
+        RepositoryListFragment.RepositoryListFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -70,6 +73,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onClickRepository(repository: Repository) {
+        startActivity(RepositoryActivity.createIntent(this, repository.name))
     }
 
     private fun initViews() {
