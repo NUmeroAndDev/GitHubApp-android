@@ -53,8 +53,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         when (item.itemId) {
             R.id.nav_home -> {
+                showReceivedEventFragment()
             }
             R.id.nav_repositories -> {
+                showRepositoryListFragment()
             }
             R.id.nav_stars -> {
             }

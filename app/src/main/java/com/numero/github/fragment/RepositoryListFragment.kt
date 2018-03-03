@@ -51,11 +51,11 @@ class RepositoryListFragment : Fragment(), RepositoryListContract.View {
     }
 
     override fun showProgress() {
-
+        progressView.show()
     }
 
     override fun hideProgress() {
-
+        progressView.hide()
     }
 
     private fun initViews() {

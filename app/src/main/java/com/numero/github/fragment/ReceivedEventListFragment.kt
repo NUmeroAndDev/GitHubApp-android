@@ -51,11 +51,11 @@ class ReceivedEventListFragment : Fragment(), ReceivedEventListContract.View {
     }
 
     override fun showProgress() {
-
+        progressView.show()
     }
 
     override fun hideProgress() {
-
+        progressView.hide()
     }
 
     private fun initViews() {
