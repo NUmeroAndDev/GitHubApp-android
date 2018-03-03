@@ -3,16 +3,21 @@ package com.numero.github.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.numero.github.R
 import com.numero.github.contract.RepositoryListContract
 import com.numero.github.model.Repository
+import com.numero.github.view.adapter.RepositoryListAdapter
+import kotlinx.android.synthetic.main.fragment_repository_list.*
 
 class RepositoryListFragment : Fragment(), RepositoryListContract.View {
 
     private lateinit var presenter: RepositoryListContract.Presenter
+    private val repositoryListAdapter: RepositoryListAdapter = RepositoryListAdapter()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -42,7 +47,7 @@ class RepositoryListFragment : Fragment(), RepositoryListContract.View {
     }
 
     override fun showRepositoryList(repositoryList: List<Repository>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        repositoryListAdapter.repositoryList = repositoryList
     }
 
     override fun showProgress() {
@@ -54,7 +59,11 @@ class RepositoryListFragment : Fragment(), RepositoryListContract.View {
     }
 
     private fun initViews() {
-        
+        repositoryRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            adapter = repositoryListAdapter
+        }
     }
 
     companion object {

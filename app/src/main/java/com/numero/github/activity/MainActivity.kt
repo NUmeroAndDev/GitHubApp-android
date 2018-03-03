@@ -7,17 +7,17 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.numero.github.R
 import com.numero.github.extension.component
+import com.numero.github.fragment.RepositoryListFragment
+import com.numero.github.presenter.RepositoryListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import com.numero.github.view.NavHeaderView
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         component?.inject(this)
 
         initViews()
+        showRepositoryListFragment()
     }
 
     override fun onBackPressed() {
@@ -98,6 +99,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+    }
+
+    private fun showRepositoryListFragment() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container) as? RepositoryListFragment
+                ?: RepositoryListFragment.newInstance().also {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, it).commit()
+                }
+        RepositoryListPresenter(fragment, githubRepository, userRepository)
     }
 
     companion object {
