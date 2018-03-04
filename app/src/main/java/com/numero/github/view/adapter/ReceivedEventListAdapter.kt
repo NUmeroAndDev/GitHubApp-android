@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.numero.github.GlideApp
 import com.numero.github.R
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.view_holder_event.*
 
 class ReceivedEventListAdapter : RecyclerView.Adapter<ReceivedEventListAdapter.ReceivedEventViewHolder>() {
 
-    var receivedEventList: List<Event>? = null
+    var receivedEventList: List<Event> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -25,13 +24,12 @@ class ReceivedEventListAdapter : RecyclerView.Adapter<ReceivedEventListAdapter.R
     }
 
     override fun getItemCount(): Int {
-        return receivedEventList?.size ?: 0
+        return receivedEventList.size
     }
 
     override fun onBindViewHolder(holder: ReceivedEventViewHolder, position: Int) {
-        val list = receivedEventList ?: return
         holder.apply {
-            setEvent(list[position])
+            setEvent(receivedEventList[position])
         }
     }
 

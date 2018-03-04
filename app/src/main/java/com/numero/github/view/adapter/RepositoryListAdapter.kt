@@ -13,7 +13,7 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
 
     private var listener: ((Repository) -> Unit)? = null
 
-    var repositoryList: List<Repository>? = null
+    var repositoryList: List<Repository> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -28,15 +28,15 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
     }
 
     override fun getItemCount(): Int {
-        return repositoryList?.size ?: 0
+        return repositoryList.size
     }
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
-        val list = repositoryList ?: return
         holder.apply {
-            setRepository(list[position])
+            val repository = repositoryList[position]
+            setRepository(repository)
             itemView.setOnClickListener {
-                listener?.invoke(list[position])
+                listener?.invoke(repository)
             }
         }
     }

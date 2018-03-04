@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.view_holder_content.*
 
 class ContentListAdapter : RecyclerView.Adapter<ContentListAdapter.ContentViewHolder>() {
 
-    var contentList: List<Content>? = null
+    var contentList: List<Content> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -22,13 +22,12 @@ class ContentListAdapter : RecyclerView.Adapter<ContentListAdapter.ContentViewHo
     }
 
     override fun getItemCount(): Int {
-        return contentList?.size ?: 0
+        return contentList.size
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        val list = contentList ?: return
         holder.apply {
-            setContent(list[position])
+            setContent(contentList[position])
         }
     }
 
