@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.numero.github.R
 import com.numero.github.extension.component
+import com.numero.github.extension.replaceFragment
 import com.numero.github.fragment.ContentListFragment
 import com.numero.github.presenter.ContentListPresenter
 import com.numero.github.repository.GithubRepository
@@ -29,14 +30,19 @@ class RepositoryActivity : AppCompatActivity() {
 
         component?.inject(this)
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ContentListFragment
+                    ?: return@addOnBackStackChangedListener
+            ContentListPresenter(fragment, githubRepository, userRepository)
+        }
+
         showContentListFragment(repositoryName)
     }
 
     private fun showContentListFragment(repositoryName: String) {
         val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ContentListFragment
                 ?: ContentListFragment.newInstance(repositoryName).also {
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, it).commit()
+                    replaceFragment(R.id.container, it, false)
                 }
         ContentListPresenter(fragment, githubRepository, userRepository)
     }
