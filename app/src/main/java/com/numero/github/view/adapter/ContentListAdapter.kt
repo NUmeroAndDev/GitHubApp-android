@@ -11,11 +11,17 @@ import kotlinx.android.synthetic.main.view_holder_content.*
 
 class ContentListAdapter : RecyclerView.Adapter<ContentListAdapter.ContentViewHolder>() {
 
+    private var listener: ((Content) -> Unit)? = null
+
     var contentList: List<Content> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
+    fun setOnItemClickListener(listener: ((Content) -> Unit)) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
         return ContentViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_content, parent, false))
@@ -27,7 +33,11 @@ class ContentListAdapter : RecyclerView.Adapter<ContentListAdapter.ContentViewHo
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         holder.apply {
-            setContent(contentList[position])
+            val content = contentList[position]
+            setContent(content)
+            itemView.setOnClickListener {
+                listener?.invoke(content)
+            }
         }
     }
 

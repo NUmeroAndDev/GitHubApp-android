@@ -8,13 +8,15 @@ import com.numero.github.R
 import com.numero.github.extension.component
 import com.numero.github.extension.replaceFragment
 import com.numero.github.fragment.ContentListFragment
+import com.numero.github.model.Content
 import com.numero.github.presenter.ContentListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class RepositoryActivity : AppCompatActivity() {
+class RepositoryActivity : AppCompatActivity(),
+        ContentListFragment.ContentListFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -30,13 +32,14 @@ class RepositoryActivity : AppCompatActivity() {
 
         component?.inject(this)
 
-        supportFragmentManager.addOnBackStackChangedListener {
-            val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ContentListFragment
-                    ?: return@addOnBackStackChangedListener
-            ContentListPresenter(fragment, githubRepository, userRepository)
-        }
-
         showContentListFragment(repositoryName)
+    }
+
+    override fun onClickContent(content: Content) {
+        val fragment = ContentListFragment.newInstance(content.name).also {
+            replaceFragment(R.id.container, it, true)
+        }
+        ContentListPresenter(fragment, githubRepository, userRepository)
     }
 
     private fun showContentListFragment(repositoryName: String) {

@@ -17,11 +17,19 @@ import kotlinx.android.synthetic.main.fragment_content_list.*
 class ContentListFragment : Fragment(), ContentListContract.View {
 
     private lateinit var presenter: ContentListContract.Presenter
-    private val contentListAdapter: ContentListAdapter = ContentListAdapter()
+    private var listener: ContentListFragmentListener? = null
+    private val contentListAdapter: ContentListAdapter = ContentListAdapter().apply {
+        setOnItemClickListener {
+            listener?.onClickContent(it)
+        }
+    }
     private lateinit var repositoryName: String
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (context is ContentListFragmentListener) {
+            listener = context
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +80,10 @@ class ContentListFragment : Fragment(), ContentListContract.View {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = contentListAdapter
         }
+    }
+
+    interface ContentListFragmentListener {
+        fun onClickContent(content: Content)
     }
 
     companion object {
