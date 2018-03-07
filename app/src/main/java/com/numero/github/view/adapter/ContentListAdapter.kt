@@ -36,7 +36,9 @@ class ContentListAdapter : RecyclerView.Adapter<ContentListAdapter.ContentViewHo
             val content = contentList[position]
             setContent(content)
             itemView.setOnClickListener {
-                listener?.invoke(content)
+                if (content.isDir()) {
+                    listener?.invoke(content)
+                }
             }
         }
     }

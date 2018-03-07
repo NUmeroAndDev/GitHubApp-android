@@ -7,4 +7,9 @@ data class Content(
         val name: String,
         val path: String,
         val url: String,
-        val type: String)
+        val type: String) {
+
+    fun isDir(): Boolean {
+        return type == "dir"
+    }
+}
