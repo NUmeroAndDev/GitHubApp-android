@@ -35,9 +35,8 @@ class ContentListFragment : Fragment(), ContentListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val arg = arguments ?: return
-        repositoryName = arg.getString(ARG_REPOSITORY_NAME)
-        content = arg.getSerializable(ARG_CONTENT) as? Content
+        repositoryName = arguments?.getString(ARG_REPOSITORY_NAME) ?: return
+        content = arguments?.getSerializable(ARG_CONTENT) as? Content
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
