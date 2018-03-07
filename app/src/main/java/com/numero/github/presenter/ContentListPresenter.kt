@@ -40,4 +40,17 @@ class ContentListPresenter(private val view: ContentListContract.View,
                     it.printStackTrace()
                 })
     }
+
+    override fun loadContentListFromUrl(url: String) {
+        view.showProgress()
+        disposable = githubRepository.getContents(url)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view.hideProgress()
+                    view.showContentList(it)
+                }, {
+                    view.hideProgress()
+                    it.printStackTrace()
+                })
+    }
 }

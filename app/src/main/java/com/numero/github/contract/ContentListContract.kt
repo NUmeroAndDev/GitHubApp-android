@@ -16,5 +16,7 @@ interface ContentListContract {
 
     interface Presenter : IPresenter {
         fun loadContentList(repositoryName: String)
+
+        fun loadContentListFromUrl(url: String)
     }
 }

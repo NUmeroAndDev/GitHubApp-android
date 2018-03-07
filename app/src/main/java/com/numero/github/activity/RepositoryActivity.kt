@@ -4,16 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.numero.github.R
 import com.numero.github.extension.component
+import com.numero.github.extension.replaceFragment
 import com.numero.github.fragment.ContentListFragment
+import com.numero.github.model.Content
 import com.numero.github.presenter.ContentListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class RepositoryActivity : AppCompatActivity() {
+class RepositoryActivity : AppCompatActivity(),
+        ContentListFragment.ContentListFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -27,16 +31,36 @@ class RepositoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_repository)
         setSupportActionBar(toolbar)
 
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+
         component?.inject(this)
 
         showContentListFragment(repositoryName)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClickContent(content: Content) {
+        val fragment = ContentListFragment.newInstance(repositoryName, content).also {
+            replaceFragment(R.id.container, it, true)
+        }
+        ContentListPresenter(fragment, githubRepository, userRepository)
+    }
+
     private fun showContentListFragment(repositoryName: String) {
         val fragment = supportFragmentManager.findFragmentById(R.id.container) as? ContentListFragment
                 ?: ContentListFragment.newInstance(repositoryName).also {
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, it).commit()
+                    replaceFragment(R.id.container, it, false)
                 }
         ContentListPresenter(fragment, githubRepository, userRepository)
     }

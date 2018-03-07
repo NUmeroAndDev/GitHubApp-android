@@ -35,4 +35,8 @@ class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
     override fun getContents(userName: String, repositoryName: String): Observable<List<Content>> {
         return githubApi.getContents(userName, repositoryName)
     }
+
+    override fun getContents(url: String): Observable<List<Content>> {
+        return githubApi.getContents(url)
+    }
 }

@@ -20,4 +20,7 @@ interface GithubApi {
 
     @GET("/repos/{user}/{repository}/contents")
     fun getContents(@Path("user") user: String, @Path("repository") repository: String): Observable<List<Content>>
+
+    @GET
+    fun getContents(@Url url: String): Observable<List<Content>>
 }

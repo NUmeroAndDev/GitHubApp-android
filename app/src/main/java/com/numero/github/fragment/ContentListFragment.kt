@@ -17,17 +17,27 @@ import kotlinx.android.synthetic.main.fragment_content_list.*
 class ContentListFragment : Fragment(), ContentListContract.View {
 
     private lateinit var presenter: ContentListContract.Presenter
-    private val contentListAdapter: ContentListAdapter = ContentListAdapter()
+    private var listener: ContentListFragmentListener? = null
+    private val contentListAdapter: ContentListAdapter = ContentListAdapter().apply {
+        setOnItemClickListener {
+            listener?.onClickContent(it)
+        }
+    }
     private lateinit var repositoryName: String
+    private var content: Content? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (context is ContentListFragmentListener) {
+            listener = context
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arg = arguments ?: return
         repositoryName = arg.getString(ARG_REPOSITORY_NAME)
+        content = arg.getSerializable(ARG_CONTENT) as? Content
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,7 +52,12 @@ class ContentListFragment : Fragment(), ContentListContract.View {
     override fun onResume() {
         super.onResume()
         presenter.subscribe()
-        presenter.loadContentList(repositoryName)
+        val url = content?.url
+        if (url != null) {
+            presenter.loadContentListFromUrl(url)
+        } else {
+            presenter.loadContentList(repositoryName)
+        }
     }
 
     override fun onPause() {
@@ -74,12 +89,20 @@ class ContentListFragment : Fragment(), ContentListContract.View {
         }
     }
 
+    interface ContentListFragmentListener {
+        fun onClickContent(content: Content)
+    }
+
     companion object {
         private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
+        private const val ARG_CONTENT = "ARG_CONTENT"
 
-        fun newInstance(repositoryName: String): ContentListFragment = ContentListFragment().apply {
+        fun newInstance(repositoryName: String): ContentListFragment = newInstance(repositoryName, null)
+
+        fun newInstance(repositoryName: String, content: Content?): ContentListFragment = ContentListFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_REPOSITORY_NAME, repositoryName)
+                putSerializable(ARG_CONTENT, content)
             }
         }
     }
