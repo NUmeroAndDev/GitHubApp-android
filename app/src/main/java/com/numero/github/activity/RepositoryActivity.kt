@@ -51,7 +51,7 @@ class RepositoryActivity : AppCompatActivity(),
     }
 
     override fun onClickContent(content: Content) {
-        val fragment = ContentListFragment.newInstance(repositoryName, content.url).also {
+        val fragment = ContentListFragment.newInstance(repositoryName, content).also {
             replaceFragment(R.id.container, it, true)
         }
         ContentListPresenter(fragment, githubRepository, userRepository)

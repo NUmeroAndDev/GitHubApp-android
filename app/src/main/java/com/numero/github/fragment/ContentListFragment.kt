@@ -24,7 +24,7 @@ class ContentListFragment : Fragment(), ContentListContract.View {
         }
     }
     private lateinit var repositoryName: String
-    private var contentUrl: String? = null
+    private var content: Content? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -37,7 +37,7 @@ class ContentListFragment : Fragment(), ContentListContract.View {
         super.onCreate(savedInstanceState)
         val arg = arguments ?: return
         repositoryName = arg.getString(ARG_REPOSITORY_NAME)
-        contentUrl = arg.getString(ARG_CONTENT_URL)
+        content = arg.getSerializable(ARG_CONTENT) as? Content
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,7 +52,7 @@ class ContentListFragment : Fragment(), ContentListContract.View {
     override fun onResume() {
         super.onResume()
         presenter.subscribe()
-        val url = contentUrl
+        val url = content?.url
         if (url != null) {
             presenter.loadContentListFromUrl(url)
         } else {
@@ -95,14 +95,14 @@ class ContentListFragment : Fragment(), ContentListContract.View {
 
     companion object {
         private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
-        private const val ARG_CONTENT_URL = "ARG_CONTENT_URL"
+        private const val ARG_CONTENT = "ARG_CONTENT"
 
         fun newInstance(repositoryName: String): ContentListFragment = newInstance(repositoryName, null)
 
-        fun newInstance(repositoryName: String, contentUrl: String?): ContentListFragment = ContentListFragment().apply {
+        fun newInstance(repositoryName: String, content: Content?): ContentListFragment = ContentListFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_REPOSITORY_NAME, repositoryName)
-                putString(ARG_CONTENT_URL, contentUrl)
+                putSerializable(ARG_CONTENT, content)
             }
         }
     }
