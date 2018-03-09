@@ -9,20 +9,25 @@
         <item
             android:id="@+id/nav_home"
             android:checked="true"
+            android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
             android:id="@+id/nav_repositories"
+            android:icon="@drawable/ic_repo"
             android:title="Repositories" />
         <item
             android:id="@+id/nav_stars"
+            android:icon="@drawable/ic_star"
             android:title="Stars" />
         <item
             android:id="@+id/nav_following_followers"
+            android:icon="@drawable/ic_org"
             android:title="Following &amp; Followers" />
     </group>
 
     <item
         android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_gear"
         android:title="Settings" />
 
 </menu>
