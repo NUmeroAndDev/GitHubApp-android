@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.numero.github.R
+import com.numero.github.model.Repository
+import kotlinx.android.synthetic.main.fragment_repository_detail.*
 
 class RepositoryDetailFragment : Fragment() {
+
+    private lateinit var repository: Repository
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -16,6 +20,7 @@ class RepositoryDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        repository = arguments?.getSerializable(ARG_REPOSITORY) as Repository
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,19 +32,21 @@ class RepositoryDetailFragment : Fragment() {
         initViews()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     private fun initViews() {
-
+        repositoryStatusView.apply {
+            unwatchCount = repository.unwatchCount
+            starCount = repository.starCount
+            forkCount = repository.forkCount
+        }
     }
 
     companion object {
-        fun newInstance(): RepositoryDetailFragment = RepositoryDetailFragment()
+        private const val ARG_REPOSITORY = "ARG_REPOSITORY"
+
+        fun newInstance(repository: Repository): RepositoryDetailFragment = RepositoryDetailFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ARG_REPOSITORY, repository)
+            }
+        }
     }
 }
