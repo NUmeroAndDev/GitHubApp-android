@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onClickRepository(repository: Repository) {
-        startActivity(RepositoryActivity.createIntent(this, repository.name))
+        startActivity(RepositoryActivity.createIntent(this, repository))
     }
 
     private fun initViews() {
