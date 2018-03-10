@@ -12,6 +12,8 @@ interface IGithubRepository {
 
     fun getReceivedEvents(userName: String): Observable<List<Event>>
 
+    fun getReadme(userName: String, repositoryName: String): Observable<Readme>
+
     fun getContents(userName: String, repositoryName: String): Observable<List<Content>>
 
     fun getContents(url: String): Observable<List<Content>>

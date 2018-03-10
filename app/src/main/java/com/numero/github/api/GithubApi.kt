@@ -18,6 +18,9 @@ interface GithubApi {
     @GET("/users/{user}/received_events")
     fun getReceivedEvents(@Path("user") user: String): Observable<List<Event>>
 
+    @GET("/repos/{user}/{repository}/readme")
+    fun getReadme(@Path("user") user: String, @Path("repository") repository: String): Observable<Readme>
+
     @GET("/repos/{user}/{repository}/contents")
     fun getContents(@Path("user") user: String, @Path("repository") repository: String): Observable<List<Content>>
 
