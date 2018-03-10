@@ -9,7 +9,9 @@ import com.numero.github.R
 import com.numero.github.extension.component
 import com.numero.github.extension.replaceFragment
 import com.numero.github.fragment.ContentListFragment
+import com.numero.github.fragment.RepositoryDetailFragment
 import com.numero.github.model.Content
+import com.numero.github.model.Repository
 import com.numero.github.presenter.ContentListPresenter
 import com.numero.github.repository.GithubRepository
 import com.numero.github.repository.UserRepository
@@ -24,7 +26,7 @@ class RepositoryActivity : AppCompatActivity(),
     @Inject
     lateinit var userRepository: UserRepository
 
-    private val repositoryName: String by lazy { intent.getStringExtra(INTENT_REPOSITORY_NAME) }
+    private val repository: Repository by lazy { intent.getSerializableExtra(INTENT_REPOSITORY) as Repository }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +35,13 @@ class RepositoryActivity : AppCompatActivity(),
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+            title = repository.name
         }
 
         component?.inject(this)
 
-        showContentListFragment(repositoryName)
+        showRepositoryDetailFragment(repository)
+//        showContentListFragment(repository.name)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,7 +55,7 @@ class RepositoryActivity : AppCompatActivity(),
     }
 
     override fun onClickContent(content: Content) {
-        val fragment = ContentListFragment.newInstance(repositoryName, content).also {
+        val fragment = ContentListFragment.newInstance(repository.name, content).also {
             replaceFragment(R.id.container, it, true)
         }
         ContentListPresenter(fragment, githubRepository, userRepository)
@@ -65,12 +69,20 @@ class RepositoryActivity : AppCompatActivity(),
         ContentListPresenter(fragment, githubRepository, userRepository)
     }
 
+    private fun showRepositoryDetailFragment(repository: Repository) {
+        if (supportFragmentManager.findFragmentById(R.id.container) !is RepositoryDetailFragment) {
+            RepositoryDetailFragment.newInstance(repository).also {
+                replaceFragment(R.id.container, it, false)
+            }
+        }
+    }
+
     companion object {
 
-        private const val INTENT_REPOSITORY_NAME = "INTENT_REPOSITORY_NAME"
+        private const val INTENT_REPOSITORY = "INTENT_REPOSITORY"
 
-        fun createIntent(context: Context, repositoryName: String): Intent = Intent(context, RepositoryActivity::class.java).apply {
-            putExtra(INTENT_REPOSITORY_NAME, repositoryName)
+        fun createIntent(context: Context, repository: Repository): Intent = Intent(context, RepositoryActivity::class.java).apply {
+            putExtra(INTENT_REPOSITORY, repository)
         }
     }
 }
