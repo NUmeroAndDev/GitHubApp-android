@@ -13,9 +13,13 @@ import kotlinx.android.synthetic.main.fragment_repository_detail.*
 class RepositoryDetailFragment : Fragment() {
 
     private lateinit var repository: Repository
+    private var listener: RepositoryDetailFragmentListener? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (context is RepositoryDetailFragmentListener) {
+            listener = context
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,13 @@ class RepositoryDetailFragment : Fragment() {
             starCount = repository.starCount
             forkCount = repository.forkCount
         }
+        viewSourceButton.setOnClickListener {
+            listener?.showContent()
+        }
+    }
+
+    interface RepositoryDetailFragmentListener {
+        fun showContent()
     }
 
     companion object {

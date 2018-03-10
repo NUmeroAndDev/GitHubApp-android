@@ -15,7 +15,8 @@ import com.numero.github.repository.UserRepository
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
-class RepositoryActivity : AppCompatActivity() {
+class RepositoryActivity : AppCompatActivity(),
+        RepositoryDetailFragment.RepositoryDetailFragmentListener {
 
     @Inject
     lateinit var githubRepository: GithubRepository
@@ -47,6 +48,10 @@ class RepositoryActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun showContent() {
+        startActivity(ContentActivity.createIntent(this, repository))
     }
 
     private fun showRepositoryDetailFragment(repository: Repository) {
