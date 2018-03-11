@@ -32,6 +32,10 @@ class GithubRepository(private val githubApi: GithubApi) : IGithubRepository {
         return githubApi.getReceivedEvents(userName)
     }
 
+    override fun getReadme(userName: String, repositoryName: String): Observable<Readme> {
+        return githubApi.getReadme(userName, repositoryName)
+    }
+
     override fun getContents(userName: String, repositoryName: String): Observable<List<Content>> {
         return githubApi.getContents(userName, repositoryName)
     }
